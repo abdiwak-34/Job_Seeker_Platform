@@ -3,8 +3,8 @@ from django.db import models
 
 class User(AbstractUser):
     ROLE_CHOICES = (
-        ('job_seeker', 'Job_Seeker'),
-        ('employer', 'Employer'),
+        ('job_seeker', 'job_seeker'),
+        ('employer', 'employer'),
     )
     role = models.CharField(max_length=20, choices=ROLE_CHOICES )
     phone_number = models.CharField(max_length=15, null=True, blank=True)

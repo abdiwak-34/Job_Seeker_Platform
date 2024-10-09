@@ -26,7 +26,7 @@ class JobSeekerProfileCreateView(generics.CreateAPIView):
 
 class EmployerProfileCreateView(generics.CreateAPIView):
     serializer_class = EmployerProfileSerializer
-    permission_classes = [IsAuthenticated, IsEmployer]
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

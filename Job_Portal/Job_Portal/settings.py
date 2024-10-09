@@ -75,7 +75,11 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
 }
+
 
 from datetime import timedelta
 
@@ -89,6 +93,22 @@ SIMPLE_JWT = {
 
 WSGI_APPLICATION = "Job_Portal.wsgi.application"
 
+
+# project/settings.py
+
+SWAGGER_SETTINGS = {
+    'USE_SESSION_AUTH': False,  # Disable session-based authentication
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header',
+            'description': 'JWT Authorization header using the Bearer scheme. Example: "Bearer {token}"',
+        }
+    },
+}
+
+ 
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
