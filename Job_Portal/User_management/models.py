@@ -3,7 +3,7 @@ from django.db import models
 
 class User(AbstractUser):
     ROLE_CHOICES = (
-        ('job_seeker', 'Job Seeker'),
+        ('job_seeker', 'Job_Seeker'),
         ('employer', 'Employer'),
     )
     role = models.CharField(max_length=20, choices=ROLE_CHOICES )

@@ -2,4 +2,6 @@ from django.contrib import admin
 from .models import *
 # Register your models here.
 
-admin.site.register(User, JobSeekerProfile, EmployerProfile)
+admin.site.register(User)
+admin.site.register(JobSeekerProfile)
+admin.site.register(EmployerProfile)
