@@ -20,10 +20,12 @@ class RegisterSerializer(serializers.ModelSerializer):
 class JobSeekerProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = JobSeekerProfile
-        fields = ['user', 'resume', 'job_cate', 'country']
+        fields = ['resume', 'job_cate', 'country']
+        read_only_fields = ['user']
 
 # Employer Profile Serializer
 class EmployerProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = EmployerProfile
-        fields = ['user', 'company_name', 'country']
+        fields = ['company_name', 'country']
+        read_only_fields = ['user']
