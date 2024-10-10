@@ -4,6 +4,7 @@ from .serializers import JobPostSerializer, JobApplicationSerializer
 from rest_framework.permissions import IsAuthenticated
 from django.conf import settings
 from User_management.permissions import IsJobSeeker, IsEmployer
+from .permissions import IsJobOwner
 
 class JobPostCreateView(generics.CreateAPIView):
     queryset = JobPost.objects.all()
@@ -18,7 +19,7 @@ class JobPostListView(generics.ListAPIView):
 class JobPostDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = JobPost.objects.all()
     serializer_class = JobPostSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsJobOwner]
 
 class JobApplicationCreateView(generics.CreateAPIView):
     queryset = JobApplication.objects.all()
