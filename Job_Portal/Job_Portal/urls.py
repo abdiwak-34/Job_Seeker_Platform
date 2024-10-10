@@ -35,7 +35,8 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'), 
-    path('user_management/',include('User_management.urls') ),
+    path('job_management/',include('Job_management.urls')),
+    path('user_management/',include('User_management.urls')),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]
