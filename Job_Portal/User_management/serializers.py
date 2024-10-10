@@ -5,17 +5,16 @@ from .models import User, JobSeekerProfile, EmployerProfile
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['username', 'password', 'email', 'role']
+        fields = ['username','first_name', 'last_name', 'password', 'email', 'role']
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
-        user = User.objects.create(
-            username=validated_data['username'],
-            email=validated_data['email'],
-            role=validated_data['role'],
-            password=make_password(validated_data['password']),
-        )
-        return user
+        password = validated_data.pop('password', None)
+        instance = self.Meta.model(**validated_data)
+        if password is not None:
+            instance.set_password(password)
+        instance.save()
+        return instance
 
 class JobSeekerProfileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -29,3 +28,28 @@ class EmployerProfileSerializer(serializers.ModelSerializer):
         model = EmployerProfile
         fields = ['company_name', 'country']
         read_only_fields = ['user']
+
+
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+class JobSeeker(serializers.ModelSerializer):
+    # Add fields from the User model
+    first_name = serializers.CharField(source='user.first_name', read_only=True)
+    last_name = serializers.CharField(source='user.last_name', read_only=True)
+    email = serializers.EmailField(source='user.email', read_only=True)
+
+    class Meta:
+        model = JobSeekerProfile
+        fields = ['first_name', 'last_name', 'email', 'resume', 'country', 'job_cate']
+class Employer(serializers.ModelSerializer):
+    # Add fields from the User model
+    first_name = serializers.CharField(source='user.first_name', read_only=True)
+    last_name = serializers.CharField(source='user.last_name', read_only=True)
+    email = serializers.EmailField(source='user.email', read_only=True)
+
+    class Meta:
+        model = EmployerProfile
+        fields = ['first_name', 'last_name', 'email', 'country', 'company_name']
+
