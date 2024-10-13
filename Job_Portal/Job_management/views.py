@@ -9,6 +9,7 @@ from User_management.serializers import JobSeeker, Employer
 from User_management.models import EmployerProfile
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.exceptions import NotFound
 
 class JobPostCreateView(generics.CreateAPIView):
     queryset = JobPost.objects.all()
@@ -17,11 +18,10 @@ class JobPostCreateView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         try:
-            profile = EmployerProfile.objects.get(user=self.request.user)
-            serializer = Employer(profile)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            employer_profile = EmployerProfile.objects.get(user=self.request.user)
+            serializer.save(employer=employer_profile)
         except EmployerProfile.DoesNotExist:
-            return Response({"detail": "Employer profile not found."}, status=status.HTTP_400_BAD_REQUEST)
+            raise NotFound(detail="Employer profile not found.")
         
 class JobPostListView(generics.ListAPIView):
     queryset = JobPost.objects.all()
